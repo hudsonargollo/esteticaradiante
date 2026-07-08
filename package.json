@@ -1,0 +1,145 @@
+{
+  "name": "flo-salon-desktop",
+  "version": "1.0.0",
+  "description": "FloSalon - Self-hosted Point of Sale for Salons",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "npm run build:frontend && npm run build && electron .",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "tsc",
+    "build:frontend": "cd frontend && npm ci && NEXT_BUILD_MODE=desktop NEXT_PUBLIC_API_URL=http://localhost:3001/api npm run build",
+    "build:all-platforms": "npm run build:frontend && npm run build && electron-builder --win --mac --linux",
+    "postinstall": "git submodule update --init --recursive",
+    "build:win": "npm run build:frontend && npm run build && electron-builder --win",
+    "build:mac": "npm run build:frontend && npm run build && electron-builder --mac",
+    "build:mas": "MAS_BUILD=1 npm run build:frontend && MAS_BUILD=1 npm run build && MAS_BUILD=1 electron-builder --mac mas --universal",
+    "build:mas-dev": "MAS_BUILD=1 npm run build:frontend && MAS_BUILD=1 npm run build && MAS_BUILD=1 electron-builder --mac masDev",
+    "build:linux": "npm run build:frontend && npm run build && electron-builder --linux",
+    "pack": "electron-builder --dir",
+    "start": "electron .",
+    "rebuild": "HOME=~/.electron-gyp node-gyp rebuild --target=$(node -p \"require('./node_modules/electron/package.json').version\") --arch=$(node -p \"process.arch\") --dist-url=https://electronjs.org/headers --runtime=electron --directory node_modules/better-sqlite3",
+    "test:backup": "npx -y ts-node --transpile-only -P tests/tsconfig.json tests/backup-restore.test.ts",
+    "test:db-audit": "npx -y ts-node --transpile-only -P tests/tsconfig.json tests/db-audit.test.ts"
+  },
+  "author": {
+    "name": "FloSalon",
+    "email": "support@flosaloon.local"
+  },
+  "homepage": "https://flosalon.local",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron/rebuild": "^4.0.3",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/bonjour": "^3.5.13",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20.14.0",
+    "@types/qrcode": "^1.5.6",
+    "@types/uuid": "^9.0.8",
+    "electron": "^31.1.0",
+    "electron-builder": "^24.13.3",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.10.0",
+    "bonjour-service": "^1.2.1",
+    "cors": "^2.8.5",
+    "electron-log": "^5.4.3",
+    "electron-updater": "^6.8.3",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "node-thermal-printer": "^4.2.1",
+    "qrcode": "^1.5.3",
+    "uuid": "^9.0.1"
+  },
+  "build": {
+    "appId": "com.flosaloon.desktop",
+    "productName": "FloSalon",
+    "asar": true,
+    "asarUnpack": "**/node_modules/better-sqlite3/**/*",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*"
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "FreeOpenSourcePOS",
+      "repo": "FloSalon"
+    },
+    "extraResources": [
+      {
+        "from": "assets",
+        "to": "assets"
+      },
+      {
+        "from": "frontend/out",
+        "to": "frontend-out"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "assets/icon.icns",
+      "category": "public.app-category.business",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "mas": {
+      "category": "public.app-category.business",
+      "entitlements": "build/entitlements.mas.plist",
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist",
+      "entitlementsLoginHelper": "build/entitlements.mas.loginhelper.plist",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "type": "distribution",
+      "extendInfo": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "target": [
+        {
+          "target": "mas",
+          "arch": "universal"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets",
+      "category": "Office"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
