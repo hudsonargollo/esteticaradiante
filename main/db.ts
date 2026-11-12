@@ -31,6 +31,21 @@ function getBackupDir(): string {
   return path.join(resolveDataDir(), 'backups');
 }
 
+function getAppVersion(): string {
+  try {
+    const electron: any = require('electron');
+    const app = electron && typeof electron === 'object' ? electron.app : null;
+    if (app && typeof app.getVersion === 'function') return app.getVersion();
+  } catch {
+    // headless
+  }
+  try {
+    return JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8')).version || 'unknown';
+  } catch {
+    return 'unknown';
+  }
+}
+
 export function initDatabase(): void {
   const dbPath = getDbPath();
   const backupDir = getBackupDir();
@@ -166,7 +181,7 @@ export async function createBackup(targetPath?: string): Promise<{ path: string;
   const currentVersion = getCurrentSchemaVersion();
   backupDb.prepare(`INSERT OR REPLACE INTO _flo_meta (key, value) VALUES (?, ?)`).run('schema_version', String(currentVersion));
   backupDb.prepare(`INSERT OR REPLACE INTO _flo_meta (key, value) VALUES (?, ?)`).run('backup_created_at', new Date().toISOString());
-  backupDb.prepare(`INSERT OR REPLACE INTO _flo_meta (key, value) VALUES (?, ?)`).run('app_version', app.getVersion());
+  backupDb.prepare(`INSERT OR REPLACE INTO _flo_meta (key, value) VALUES (?, ?)`).run('app_version', getAppVersion());
   backupDb.close();
 
   console.log(`[DB] Backup created: ${backupPath} (schema v${currentVersion})`);
