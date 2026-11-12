@@ -171,7 +171,7 @@ export function calculateRoundOff(total: number): number {
 // Tax preview endpoint handler
 export async function calculateTaxPreview(req: any, res: any): Promise<void> {
   try {
-    const { items, customer_id, packaging_charge } = req.body;
+    const { items, customer_id } = req.body;
 
     if (!items || items.length === 0) {
       res.status(400).json({ error: 'Items are required' });
@@ -240,8 +240,7 @@ export async function calculateTaxPreview(req: any, res: any): Promise<void> {
     }
 
     const aggregatedBreakdown = aggregateTaxBreakdown(allBreakdowns);
-    const packaging = packaging_charge || 0;
-    const preRoundTotal = totalSubtotal + totalTax + packaging;
+    const preRoundTotal = totalSubtotal + totalTax;
     const roundOff = calculateRoundOff(preRoundTotal);
 
     res.json({
@@ -250,7 +249,6 @@ export async function calculateTaxPreview(req: any, res: any): Promise<void> {
         subtotal: round(totalSubtotal, 2),
         tax_amount: round(totalTax, 2),
         tax_breakdown: aggregatedBreakdown,
-        packaging_charge: packaging,
         round_off: roundOff,
         total: round(preRoundTotal + roundOff, 2),
       },

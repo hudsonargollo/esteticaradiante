@@ -6,7 +6,7 @@ const router = Router();
 router.patch('/:id/status', (req: Request, res: Response) => {
   try {
     const { status } = req.body;
-    const validStatuses = ['pending', 'in-service', 'served'];
+    const validStatuses = ['pending', 'in-service', 'done'];
     if (!status || !validStatuses.includes(status)) {
       return res.status(400).json({ error: `Valid status required: ${validStatuses.join(', ')}` });
     }

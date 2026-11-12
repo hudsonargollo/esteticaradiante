@@ -107,7 +107,7 @@ router.post('/:id/payment', (req: Request, res: Response) => {
 
       if (paymentStatus === 'paid') {
         db.prepare("UPDATE orders SET status = 'completed', completed_at = ?, updated_at = ? WHERE id = ?").run(now(), now(), bill.order_id);
-        db.prepare(`UPDATE order_items SET status = 'served', updated_at = ? WHERE order_id = ? AND status IN ('pending', 'in-service')`).run(now(), bill.order_id);
+        db.prepare(`UPDATE order_items SET status = 'done', updated_at = ? WHERE order_id = ? AND status IN ('pending', 'in-service')`).run(now(), bill.order_id);
       }
 
       return { bill: db.prepare('SELECT * FROM bills WHERE id = ?').get(req.params.id) };

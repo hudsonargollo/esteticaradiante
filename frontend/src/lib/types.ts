@@ -80,7 +80,7 @@ export interface OrderItem {
   discount_amount: number;
   total: number;
   performed_by_user_id?: string | null;
-  status: 'pending' | 'in-service' | 'served' | 'cancelled';
+  status: 'pending' | 'in-service' | 'done' | 'cancelled';
 }
 
 export interface Order {

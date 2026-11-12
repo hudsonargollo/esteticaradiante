@@ -239,7 +239,7 @@ router.patch('/:id/status', (req: Request, res: Response) => {
           break;
         case 'completed':
           db.prepare('UPDATE orders SET status = ?, completed_at = ?, updated_at = ? WHERE id = ?').run(status, nowStr, nowStr, req.params.id);
-          db.prepare(`UPDATE order_items SET status = 'served', updated_at = ? WHERE order_id = ? AND status IN ('pending', 'in-service')`).run(nowStr, req.params.id);
+          db.prepare(`UPDATE order_items SET status = 'done', updated_at = ? WHERE order_id = ? AND status IN ('pending', 'in-service')`).run(nowStr, req.params.id);
           break;
         case 'cancelled': {
           const items = db.prepare('SELECT * FROM order_items WHERE order_id = ?').all(req.params.id) as any[];

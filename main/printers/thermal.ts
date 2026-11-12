@@ -352,28 +352,6 @@ export async function printReceipt(order: any, bill: any, business?: any, templa
   }
 }
 
-export async function printKOT(order: any, items: any[], stationName: string, useUnicode: boolean = false): Promise<boolean> {
-  try {
-    console.log('[Printer] printKOT called, items count:', items?.length || 0, 'useUnicode:', useUnicode);
-    const printer = getPrinterConfig();
-    if (!printer) {
-      console.log('[Printer] No printer configured');
-      return false;
-    }
-    console.log('[Printer] Using printer:', printer.name, printer.connection_type);
-
-    const paperWidth = printer.paper_width || '80mm';
-    const cols = paperWidth === '58mm' ? 42 : 48;
-
-    const data = formatKOT(order, items, stationName, cols, useUnicode);
-    console.log('[Printer] KOT data length:', data.length, 'bytes');
-    return await dispatchPrint(printer, data);
-  } catch (error: any) {
-    console.error('[Printer] KOT print error:', error);
-    return false;
-  }
-}
-
 async function dispatchPrint(printer: any, data: Buffer): Promise<boolean> {
   switch (printer.connection_type) {
     case 'network':
@@ -703,36 +681,6 @@ function getTaxRate(item: any): number {
 
 function truncate(text: string, length: number): string {
   return text.length > length ? text.substring(0, length - 2) + '..' : text;
-}
-
-export function formatKOT(order: any, items: any[], stationName: string, cols: number = 48, useUnicode: boolean = false): Buffer {
-  const lines: string[] = [];
-  const bar = '='.repeat(cols);
-
-  lines.push('{INIT}');
-  lines.push('{CENTER}{BOLD}KITCHEN ORDER TICKET{/BOLD}{/CENTER}');
-  lines.push('');
-  lines.push('Station: ' + stationName);
-  lines.push('Order: ' + order.order_number);
-  if (order.table) {
-    lines.push('Table: ' + order.table.name);
-  }
-  lines.push('Time: ' + new Date(order.created_at).toLocaleTimeString());
-  lines.push(bar);
-  lines.push('');
-
-  for (const item of items) {
-    lines.push('{DOUBLE_HEIGHT}{BOLD}' + item.quantity + 'x  ' + item.product_name + '{/BOLD}{/DOUBLE_HEIGHT}');
-    if (item.special_instructions) {
-      lines.push('  ** ' + item.special_instructions + ' **');
-    }
-  }
-
-  lines.push('');
-  lines.push(bar);
-  lines.push('{CUT}');
-
-  return buildEscPos(lines, useUnicode);
 }
 
 export function buildTestPage(paperWidth: string = '80mm'): Buffer {
