@@ -8,7 +8,9 @@ const PUBLIC_PATHS = ['/auth/login'];
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const pathname = usePathname();
+  const rawPathname = usePathname();
+  // static export builds use trailingSlash, so normalize before comparing
+  const pathname = rawPathname ? (rawPathname.replace(/\/+$/, '') || '/') : '';
   const { user, loading, needsSetup, loadFromStorage } = useAuthStore();
 
   useEffect(() => {
