@@ -1,6 +1,5 @@
 import Database from 'better-sqlite3';
 import * as path from 'path';
-import { app } from 'electron';
 import * as fs from 'fs';
 import * as bcrypt from 'bcryptjs';
 
@@ -8,13 +7,28 @@ export const SCHEMA_VERSION = 1;
 
 let db: Database.Database;
 
+// Electron's app.getPath('userData') when packaged; FLOSALON_DATA_DIR overrides
+// for headless (web) deployments; project root fallback for dev.
+function resolveDataDir(): string {
+  if (process.env.FLOSALON_DATA_DIR) return process.env.FLOSALON_DATA_DIR;
+  try {
+    const electron: any = require('electron');
+    const app = electron && typeof electron === 'object' ? electron.app : null;
+    if (app && typeof app.getPath === 'function') {
+      return app.isPackaged ? app.getPath('userData') : path.join(__dirname, '../');
+    }
+  } catch {
+    // not running inside Electron
+  }
+  return path.join(__dirname, '../');
+}
+
 export function getDbPath(): string {
-  const userDataPath = app.isPackaged ? app.getPath('userData') : path.join(__dirname, '../');
-  return path.join(userDataPath, 'flosaloon.db');
+  return path.join(resolveDataDir(), 'flosaloon.db');
 }
 
 function getBackupDir(): string {
-  return path.join(app.getPath('userData'), 'backups');
+  return path.join(resolveDataDir(), 'backups');
 }
 
 export function initDatabase(): void {
