@@ -35,6 +35,7 @@ export default function Sidebar() {
   useEffect(() => {
     const stored = localStorage.getItem('sidebar_collapsed');
     if (stored === 'true') setCollapsed(true);
+    else if (window.innerWidth < 768) setCollapsed(true);
   }, []);
 
   const toggle = () => {

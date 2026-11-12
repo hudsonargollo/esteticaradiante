@@ -130,7 +130,7 @@ export default function PosPage() {
   }
 
   return (
-    <div className="flex gap-6 h-[calc(100vh-3rem)]">
+    <div className="flex flex-col lg:flex-row gap-6 lg:h-[calc(100vh-3rem)]">
       {/* Service / product browser */}
       <div className="flex-1 min-w-0 flex flex-col">
         <div className="relative mb-4">
@@ -174,7 +174,7 @@ export default function PosPage() {
       </div>
 
       {/* Ticket */}
-      <div className="w-96 shrink-0 flex flex-col border-l border-[var(--border)] pl-6">
+      <div className="w-full lg:w-96 shrink-0 flex flex-col border-t lg:border-t-0 lg:border-l border-[var(--border)] pt-6 lg:pt-0 lg:pl-6">
         <h2 className="font-semibold mb-3">Ticket</h2>
         <div className="flex-1 overflow-y-auto space-y-3">
           {cart.length === 0 && <p className="text-sm text-[var(--muted-foreground)]">No items yet</p>}
