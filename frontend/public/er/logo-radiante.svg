@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="lotusGradient" x1="30" y1="30" x2="170" y2="175" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C9A7E8" />
+      <stop offset="0.55" stop-color="#D4AF37" />
+      <stop offset="1" stop-color="#7C4D8C" />
+    </linearGradient>
+  </defs>
+  <g stroke="url(#lotusGradient)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M100 38C117 65 117 92 100 116C83 92 83 65 100 38Z" fill="rgba(212,175,55,0.14)" />
+    <path d="M100 116C86 99 65 90 46 92C50 111 69 128 100 133" fill="rgba(201,167,232,0.14)" />
+    <path d="M100 116C114 99 135 90 154 92C150 111 131 128 100 133" fill="rgba(201,167,232,0.14)" />
+    <path d="M100 133C81 123 56 123 36 134C47 151 72 157 100 149" fill="rgba(124,77,140,0.12)" />
+    <path d="M100 133C119 123 144 123 164 134C153 151 128 157 100 149" fill="rgba(124,77,140,0.12)" />
+    <path d="M100 149C88 149 75 153 66 161C79 170 91 172 100 169C109 172 121 170 134 161C125 153 112 149 100 149Z" fill="rgba(212,175,55,0.10)" />
+  </g>
+  <g stroke="#D4AF37" stroke-width="2" stroke-linecap="round" opacity="0.55">
+    <path d="M100 16V27" />
+    <path d="M58 36L65 44" />
+    <path d="M142 36L135 44" />
+    <path d="M36 78H47" />
+    <path d="M164 78H153" />
+    <path d="M46 116L55 112" />
+    <path d="M154 116L145 112" />
+  </g>
+</svg>

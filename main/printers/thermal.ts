@@ -384,6 +384,7 @@ export function formatReceipt(order: any, bill: any, business?: any, template?: 
 
   const tpl = template || 'compact';
   const biz = business || { name: 'Store', address: '', phone: '', gstin: '' };
+  activeCurrencySymbol = biz.currency_symbol || 'R$';
 
   try {
     switch (tpl) {
@@ -658,8 +659,11 @@ function parseAddons(addons: any): any[] {
   return Array.isArray(addons) ? addons : [];
 }
 
+let activeCurrencySymbol = 'R$';
+
 function formatCurrency(amount: number): string {
-  return '₹' + (Number(amount) || 0).toFixed(2);
+  const value = (Number(amount) || 0).toFixed(2).replace('.', ',');
+  return `${activeCurrencySymbol} ${value}`;
 }
 
 function rightAlign(text: string, width: number = 24): string {

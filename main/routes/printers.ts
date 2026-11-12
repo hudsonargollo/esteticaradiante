@@ -148,9 +148,10 @@ router.post('/print-bill', async (req: Request, res: Response) => {
     const businessAddress = db.prepare("SELECT value FROM settings WHERE key = 'address'").get() as any;
     const businessPhone = db.prepare("SELECT value FROM settings WHERE key = 'phone'").get() as any;
     const gstin = db.prepare("SELECT value FROM settings WHERE key = 'gstin'").get() as any;
+    const currencySymbol = db.prepare("SELECT value FROM settings WHERE key = 'currency_symbol'").get() as any;
     const billTemplate = db.prepare("SELECT value FROM settings WHERE key = 'bill_template'").get() as any;
 
-    const business = { name: businessName?.value || 'Salon', address: businessAddress?.value || '', phone: businessPhone?.value || '', gstin: gstin?.value || '' };
+    const business = { name: businessName?.value || 'Salon', address: businessAddress?.value || '', phone: businessPhone?.value || '', gstin: gstin?.value || '', currency_symbol: currencySymbol?.value || 'R$' };
     const success = await printReceipt(order, bill, business, billTemplate?.value || 'compact', useUnicode);
 
     if (success) res.json({ success: true });

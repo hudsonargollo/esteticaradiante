@@ -254,6 +254,37 @@ CREATE INDEX idx_bills_order       ON bills(order_id);
 
 ---
 
+## 4.1 Agendamento online (implementado)
+
+Página pública: `/agendar` (mobile-first, tema claro/escuro, sem login).
+Painel da equipe: `/agenda` (dia, resumo, check-in, remarcar, cancelar, link/QR).
+
+Fluxo: serviços → calendário/horário → identificação (nome + WhatsApp) → confirmação.
+O check-in gera uma comanda (`orders`) com os preços do momento do agendamento.
+
+Tabelas: `appointments`, `appointment_items` (schema v2).
+
+Endpoints públicos (sem JWT):
+
+- `GET /api/public/booking/config` — negócio, fidelidade, serviços e categorias
+- `GET /api/public/booking/slots?date=YYYY-MM-DD&duration=60`
+- `GET /api/public/booking/client?phone=...`
+- `POST /api/public/booking/appointments`
+
+Endpoints da equipe:
+
+- `GET /api/appointments?date=YYYY-MM-DD` — lista + resumo
+- `POST /api/appointments` — criação manual / encaixe
+- `PATCH /api/appointments/:id/status`, `PATCH /api/appointments/:id/reschedule`
+- `POST /api/appointments/:id/check-in` — cria a comanda
+- `GET /api/appointments/booking-link`, `GET /api/appointments/booking-qr`
+
+Configuração em `settings`: `booking_open_time`, `booking_close_time`,
+`booking_slot_interval`, `booking_open_days`, `booking_advance_days`,
+`booking_lead_minutes`, `loyalty_threshold`, `loyalty_reward`.
+
+---
+
 ## 5. Open decisions (TBD)
 
 These came up while sorting features and probably need your input before we start migrating code:

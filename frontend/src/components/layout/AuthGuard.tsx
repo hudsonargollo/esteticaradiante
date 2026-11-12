@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
 
-const PUBLIC_PATHS = ['/auth/login'];
+const PUBLIC_PATHS = ['/auth/login', '/agendar'];
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -20,6 +20,9 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (loading) return;
+
+    // Public booking page: never redirect, even during first-run setup.
+    if (PUBLIC_PATHS.includes(pathname || '')) return;
 
     if (needsSetup && pathname !== '/setup') {
       router.replace('/setup');
@@ -38,7 +41,9 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     }
   }, [loading, needsSetup, user, pathname, router]);
 
-  if (loading) {
+  const isPublic = PUBLIC_PATHS.includes(pathname || '');
+
+  if (loading && !isPublic) {
     return (
       <div className="flex h-screen items-center justify-center text-sm text-[var(--muted-foreground)]">
         Loading...

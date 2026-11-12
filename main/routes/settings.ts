@@ -25,9 +25,9 @@ function upsertSettings(db: ReturnType<typeof getDatabase>, entries: Record<stri
 function businessShape(s: Record<string, string>) {
   return {
     business_name:   s.business_name   || '',
-    timezone:        s.timezone        || 'Asia/Kolkata',
-    currency:        s.currency        || 'INR',
-    country:         s.country         || 'IN',
+    timezone:        s.timezone        || 'America/Sao_Paulo',
+    currency:        s.currency        || 'BRL',
+    country:         s.country         || 'BR',
     gstin:           s.gstin           || '',
     state_code:      s.state_code      || '',
     business_address: s.business_address || '',

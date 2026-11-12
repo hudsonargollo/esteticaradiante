@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   ShoppingCart,
   ClipboardList,
+  CalendarDays,
   Package,
   Users,
   UserCog,
@@ -19,6 +20,7 @@ import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
   { href: '/pos', label: 'POS', icon: ShoppingCart, roles: ['owner', 'manager', 'cashier', 'stylist'] },
+  { href: '/agenda', label: 'Agenda', icon: CalendarDays, roles: ['owner', 'manager', 'cashier', 'stylist'] },
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['owner', 'manager', 'cashier', 'stylist'] },
   { href: '/orders', label: 'Orders', icon: ClipboardList, roles: ['owner', 'manager', 'cashier', 'stylist'] },
   { href: '/products', label: 'Services', icon: Package, roles: ['owner', 'manager'] },
