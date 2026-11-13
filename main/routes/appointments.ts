@@ -35,7 +35,9 @@ function bookingUrls(req: Request) {
   const localUrl = `${req.protocol}://${host}/agendar/`;
   const lanIp = getLanIp();
   const lanUrl = lanIp ? `http://${lanIp}:${port}/agendar/` : null;
-  return { url: lanUrl || localUrl, local_url: localUrl, lan_url: lanUrl };
+  const publicBase = process.env.PUBLIC_BOOKING_URL?.replace(/\/+$/, '');
+  const url = publicBase ? `${publicBase}/agendar` : (lanUrl || localUrl);
+  return { url, local_url: localUrl, lan_url: lanUrl };
 }
 
 router.get('/', (req: Request, res: Response) => {

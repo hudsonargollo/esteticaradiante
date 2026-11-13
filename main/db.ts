@@ -610,8 +610,8 @@ function seedData(): void {
   insert('cloud_connected',      'false');
   seedBookingSettings();
 
-  const hashedPassword = bcrypt.hashSync('admin123', 10);
-  db.prepare(`INSERT OR IGNORE INTO users (id, name, email, password, role) VALUES (?, ?, ?, ?, ?)`).run('user-1', 'Elis Carvalho', 'admin@flosaloon.local', hashedPassword, 'owner');
+  const hashedPassword = bcrypt.hashSync('estetica123', 10);
+  db.prepare(`INSERT OR IGNORE INTO users (id, name, email, password, role) VALUES (?, ?, ?, ?, ?)`).run('user-1', 'Elis Carvalho', 'admin@estetica.com', hashedPassword, 'owner');
 
   const stylistPassword = bcrypt.hashSync('stylist123', 10);
   db.prepare(`INSERT OR IGNORE INTO users (id, name, email, password, role) VALUES (?, ?, ?, ?, ?)`).run('user-2', 'Elis Carvalho', 'stylist@flosaloon.local', stylistPassword, 'stylist');
