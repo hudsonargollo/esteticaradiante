@@ -18,9 +18,9 @@ export default function SetupPage() {
     setLoading(true);
     try {
       await setup(form);
-      toast.success('Store set up successfully');
+      toast.success('Loja configurada com sucesso');
     } catch (err: any) {
-      toast.error(err?.response?.data?.error || 'Setup failed');
+      toast.error(err?.response?.data?.error || 'Falha na configuração');
     } finally {
       setLoading(false);
     }
@@ -30,27 +30,27 @@ export default function SetupPage() {
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-sm">
         <CardContent className="pt-6">
-          <h1 className="text-xl font-semibold mb-1">Welcome to FloSalon</h1>
-          <p className="text-sm text-[var(--muted-foreground)] mb-6">Create the owner account to get started. No other setup needed.</p>
+          <h1 className="text-xl font-semibold mb-1">Bem-vinda à Estética Radiante</h1>
+          <p className="text-sm text-[var(--muted-foreground)] mb-6">Crie a conta da proprietária para começar. Nenhuma outra configuração é necessária.</p>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="business_name">Salon name</Label>
+              <Label htmlFor="business_name">Nome do salão</Label>
               <Input id="business_name" value={form.business_name} onChange={(e) => setForm({ ...form, business_name: e.target.value })} required autoFocus />
             </div>
             <div>
-              <Label htmlFor="name">Your name</Label>
+              <Label htmlFor="name">Seu nome</Label>
               <Input id="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
             </div>
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">E-mail</Label>
               <Input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
             </div>
             <div>
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Senha</Label>
               <Input id="password" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required minLength={6} />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Setting up...' : 'Create store'}
+              {loading ? 'Configurando...' : 'Criar loja'}
             </Button>
           </form>
         </CardContent>

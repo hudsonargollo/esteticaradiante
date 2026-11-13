@@ -46,7 +46,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   if (loading && !isPublic) {
     return (
       <div className="flex h-screen items-center justify-center text-sm text-[var(--muted-foreground)]">
-        Loading...
+        Carregando...
       </div>
     );
   }

@@ -13,6 +13,13 @@ import toast from 'react-hot-toast';
 
 const EMPTY_FORM = { name: '', email: '', password: '', role: 'cashier', pin: '' };
 
+const ROLE_LABELS: Record<string, string> = {
+  stylist: 'Profissional',
+  cashier: 'Caixa',
+  manager: 'Gerente',
+  owner: 'Proprietária',
+};
+
 export default function StaffPage() {
   const [staff, setStaff] = useState<StaffMember[]>([]);
   const [open, setOpen] = useState(false);
@@ -31,12 +38,12 @@ export default function StaffPage() {
     e.preventDefault();
     try {
       await api.post('/staff', form);
-      toast.success('Staff member added');
+      toast.success('Profissional adicionada');
       setOpen(false);
       setForm(EMPTY_FORM);
       load();
     } catch (err: any) {
-      toast.error(err?.response?.data?.error || 'Save failed');
+      toast.error(err?.response?.data?.error || 'Falha ao salvar');
     }
   }
 
@@ -52,9 +59,9 @@ export default function StaffPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-semibold">Staff</h1>
+        <h1 className="text-xl font-semibold">Equipe</h1>
         <Button onClick={() => setOpen(true)}>
-          <Plus className="h-4 w-4" /> Add staff
+          <Plus className="h-4 w-4" /> Adicionar profissional
         </Button>
       </div>
 
@@ -62,9 +69,9 @@ export default function StaffPage() {
         <table className="w-full text-sm">
           <thead className="bg-[var(--secondary)] text-left">
             <tr>
-              <th className="p-3">Name</th>
-              <th className="p-3">Email</th>
-              <th className="p-3">Role</th>
+              <th className="p-3">Nome</th>
+              <th className="p-3">E-mail</th>
+              <th className="p-3">Função</th>
               <th className="p-3">Status</th>
               <th className="p-3"></th>
             </tr>
@@ -74,11 +81,11 @@ export default function StaffPage() {
               <tr key={s.id} className="border-t border-[var(--border)] hover:bg-[var(--secondary)]">
                 <td className="p-3 font-medium">{s.name}</td>
                 <td className="p-3">{s.email || '—'}</td>
-                <td className="p-3 capitalize">{s.role}</td>
-                <td className="p-3">{s.is_active === 1 ? 'Active' : 'Inactive'}</td>
+                <td className="p-3">{ROLE_LABELS[s.role] || s.role}</td>
+                <td className="p-3">{s.is_active === 1 ? 'Ativo' : 'Inativo'}</td>
                 <td className="p-3 text-right">
                   <button className="text-sm underline" onClick={() => toggleActive(s)}>
-                    {s.is_active === 1 ? 'Deactivate' : 'Reactivate'}
+                    {s.is_active === 1 ? 'Desativar' : 'Reativar'}
                   </button>
                 </td>
               </tr>
@@ -87,34 +94,34 @@ export default function StaffPage() {
         </table>
       </div>
 
-      <Modal open={open} onClose={() => setOpen(false)} title="Add staff">
+      <Modal open={open} onClose={() => setOpen(false)} title="Adicionar profissional">
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
-            <Label>Name</Label>
+            <Label>Nome</Label>
             <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
           </div>
           <div>
-            <Label>Email</Label>
+            <Label>E-mail</Label>
             <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
           </div>
           <div>
-            <Label>Password</Label>
+            <Label>Senha</Label>
             <Input type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required minLength={6} />
           </div>
           <div>
-            <Label>Role</Label>
+            <Label>Função</Label>
             <Select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
-              <option value="stylist">Stylist</option>
-              <option value="cashier">Cashier</option>
-              <option value="manager">Manager</option>
-              <option value="owner">Owner</option>
+              <option value="stylist">Profissional</option>
+              <option value="cashier">Caixa</option>
+              <option value="manager">Gerente</option>
+              <option value="owner">Proprietária</option>
             </Select>
           </div>
           <div>
-            <Label>PIN (optional, for discount overrides)</Label>
+            <Label>PIN (opcional, para autorizar descontos)</Label>
             <Input value={form.pin} onChange={(e) => setForm({ ...form, pin: e.target.value })} maxLength={6} />
           </div>
-          <Button type="submit" className="w-full">Create staff member</Button>
+          <Button type="submit" className="w-full">Cadastrar profissional</Button>
         </form>
       </Modal>
     </div>

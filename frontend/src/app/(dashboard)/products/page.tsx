@@ -71,20 +71,20 @@ export default function ServicesPage() {
     try {
       if (editing) {
         await api.put(`/products/${editing.id}`, payload);
-        toast.success('Saved');
+        toast.success('Salvo');
       } else {
         await api.post('/products', payload);
-        toast.success('Created');
+        toast.success('Criado');
       }
       setOpen(false);
       load();
     } catch (err: any) {
-      toast.error(err?.response?.data?.error || 'Save failed');
+      toast.error(err?.response?.data?.error || 'Falha ao salvar');
     }
   }
 
   async function handleDelete(id: string) {
-    if (!confirm('Delete this item?')) return;
+    if (!confirm('Excluir este item?')) return;
     await api.delete(`/products/${id}`);
     load();
   }
@@ -92,9 +92,9 @@ export default function ServicesPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-semibold">Services</h1>
+        <h1 className="text-xl font-semibold">Serviços</h1>
         <Button onClick={openCreate}>
-          <Plus className="h-4 w-4" /> Add
+          <Plus className="h-4 w-4" /> Adicionar
         </Button>
       </div>
 
@@ -102,11 +102,11 @@ export default function ServicesPage() {
         <table className="w-full text-sm">
           <thead className="bg-[var(--secondary)] text-left">
             <tr>
-              <th className="p-3">Name</th>
-              <th className="p-3">Type</th>
-              <th className="p-3">Category</th>
-              <th className="p-3">Price</th>
-              <th className="p-3">Details</th>
+              <th className="p-3">Nome</th>
+              <th className="p-3">Tipo</th>
+              <th className="p-3">Categoria</th>
+              <th className="p-3">Preço</th>
+              <th className="p-3">Detalhes</th>
               <th className="p-3"></th>
             </tr>
           </thead>
@@ -116,57 +116,57 @@ export default function ServicesPage() {
                 <td className="p-3 font-medium">{p.name}</td>
                 <td className="p-3">
                   <span className={cn('px-2 py-0.5 rounded-full text-xs font-medium', p.kind === 'service' ? 'bg-pink-100 text-pink-800' : 'bg-green-100 text-green-800')}>
-                    {p.kind}
+                    {p.kind === 'service' ? 'serviço' : 'produto'}
                   </span>
                 </td>
                 <td className="p-3">{p.category?.name || '—'}</td>
                 <td className="p-3">{formatCurrency(p.price)}</td>
                 <td className="p-3 text-[var(--muted-foreground)]">
-                  {p.kind === 'service' ? `${p.service_duration_minutes} min` : (p.track_inventory === 1 ? `Stock: ${p.stock_quantity}` : '—')}
+                  {p.kind === 'service' ? `${p.service_duration_minutes} min` : (p.track_inventory === 1 ? `Estoque: ${p.stock_quantity}` : '—')}
                 </td>
                 <td className="p-3 text-right space-x-2">
-                  <button className="text-sm underline" onClick={() => openEdit(p)}>Edit</button>
-                  <button className="text-sm underline text-red-600" onClick={() => handleDelete(p.id)}>Delete</button>
+                  <button className="text-sm underline" onClick={() => openEdit(p)}>Editar</button>
+                  <button className="text-sm underline text-red-600" onClick={() => handleDelete(p.id)}>Excluir</button>
                 </td>
               </tr>
             ))}
             {products.length === 0 && (
-              <tr><td colSpan={6} className="p-6 text-center text-[var(--muted-foreground)]">Nothing here yet</td></tr>
+              <tr><td colSpan={6} className="p-6 text-center text-[var(--muted-foreground)]">Nada por aqui ainda</td></tr>
             )}
           </tbody>
         </table>
       </div>
 
-      <Modal open={open} onClose={() => setOpen(false)} title={editing ? 'Edit item' : 'Add service or product'}>
+      <Modal open={open} onClose={() => setOpen(false)} title={editing ? 'Editar item' : 'Adicionar serviço ou produto'}>
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
-            <Label>Type</Label>
+            <Label>Tipo</Label>
             <Select value={form.kind} onChange={(e) => setForm({ ...form, kind: e.target.value })}>
-              <option value="service">Service (performed by a stylist)</option>
-              <option value="retail">Retail product (sold at the counter)</option>
+              <option value="service">Serviço (executado por uma profissional)</option>
+              <option value="retail">Produto (vendido no balcão)</option>
             </Select>
           </div>
           <div>
-            <Label>Name</Label>
+            <Label>Nome</Label>
             <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label>Category</Label>
+              <Label>Categoria</Label>
               <Select value={form.category_id} onChange={(e) => setForm({ ...form, category_id: e.target.value })}>
-                <option value="">None</option>
+                <option value="">Nenhuma</option>
                 {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
               </Select>
             </div>
             <div>
-              <Label>Price</Label>
+              <Label>Preço</Label>
               <Input type="number" step="0.01" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
             </div>
           </div>
 
           {form.kind === 'service' ? (
             <div>
-              <Label>Duration (minutes)</Label>
+              <Label>Duração (minutos)</Label>
               <Input type="number" value={form.service_duration_minutes} onChange={(e) => setForm({ ...form, service_duration_minutes: e.target.value })} required />
             </div>
           ) : (
@@ -177,16 +177,16 @@ export default function ServicesPage() {
               </div>
               <div className="flex items-center gap-2">
                 <input type="checkbox" id="track_inventory" checked={form.track_inventory} onChange={(e) => setForm({ ...form, track_inventory: e.target.checked })} />
-                <Label htmlFor="track_inventory" className="!mb-0">Track stock</Label>
+                <Label htmlFor="track_inventory" className="!mb-0">Controlar estoque</Label>
               </div>
               {form.track_inventory && (
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label>Stock quantity</Label>
+                    <Label>Quantidade em estoque</Label>
                     <Input type="number" value={form.stock_quantity} onChange={(e) => setForm({ ...form, stock_quantity: e.target.value })} />
                   </div>
                   <div>
-                    <Label>Low stock alert below</Label>
+                    <Label>Alerta de estoque baixo abaixo de</Label>
                     <Input type="number" value={form.low_stock_threshold} onChange={(e) => setForm({ ...form, low_stock_threshold: e.target.value })} />
                   </div>
                 </div>
@@ -196,22 +196,22 @@ export default function ServicesPage() {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label>Tax type</Label>
+              <Label>Tipo de imposto</Label>
               <Select value={form.tax_type} onChange={(e) => setForm({ ...form, tax_type: e.target.value })}>
-                <option value="none">None</option>
-                <option value="inclusive">Inclusive</option>
-                <option value="exclusive">Exclusive</option>
+                <option value="none">Nenhum</option>
+                <option value="inclusive">Incluso</option>
+                <option value="exclusive">Excluso</option>
               </Select>
             </div>
             <div>
-              <Label>Tax rate %</Label>
+              <Label>Alíquota %</Label>
               <Input type="number" step="0.01" value={form.tax_rate} onChange={(e) => setForm({ ...form, tax_rate: e.target.value })} disabled={form.tax_type === 'none'} />
             </div>
           </div>
           {form.kind === 'service' && (
-            <p className="text-xs text-[var(--muted-foreground)]">Services are taxed at the store's flat GST rate regardless of this field — see Settings → Tax.</p>
+            <p className="text-xs text-[var(--muted-foreground)]">Serviços são tributados pela alíquota fixa da loja, independentemente deste campo — veja Configurações → Impostos.</p>
           )}
-          <Button type="submit" className="w-full">{editing ? 'Save changes' : 'Create'}</Button>
+          <Button type="submit" className="w-full">{editing ? 'Salvar alterações' : 'Criar'}</Button>
         </form>
       </Modal>
     </div>

@@ -39,22 +39,22 @@ export default function DashboardPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold mb-4">Dashboard</h1>
+      <h1 className="text-xl font-semibold mb-4">Painel</h1>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <StatCard label="Today's sales" value={formatCurrency(summary?.bills.collected || 0)} />
-        <StatCard label="Tickets" value={String(summary?.orders.count ?? '—')} />
-        <StatCard label="In service now" value={String(runningTickets)} />
-        <StatCard label="New clients" value={String(summary?.customers.new ?? '—')} />
+        <StatCard label="Vendas de hoje" value={formatCurrency(summary?.bills.collected || 0)} />
+        <StatCard label="Comandas" value={String(summary?.orders.count ?? '—')} />
+        <StatCard label="Em atendimento agora" value={String(runningTickets)} />
+        <StatCard label="Novas clientes" value={String(summary?.customers.new ?? '—')} />
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
         <Card>
           <CardHeader>
-            <CardTitle>Top services today</CardTitle>
+            <CardTitle>Serviços mais vendidos hoje</CardTitle>
           </CardHeader>
           <CardContent>
-            {topServices.length === 0 && <p className="text-sm text-[var(--muted-foreground)]">No sales yet today</p>}
+            {topServices.length === 0 && <p className="text-sm text-[var(--muted-foreground)]">Nenhuma venda hoje ainda</p>}
             <div className="space-y-2">
               {topServices.map((s) => (
                 <div key={s.product_name} className="flex justify-between text-sm">
@@ -68,10 +68,10 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Staff performance today</CardTitle>
+            <CardTitle>Desempenho da equipe hoje</CardTitle>
           </CardHeader>
           <CardContent>
-            {staffPerf.length === 0 && <p className="text-sm text-[var(--muted-foreground)]">No stylists on record</p>}
+            {staffPerf.length === 0 && <p className="text-sm text-[var(--muted-foreground)]">Nenhuma profissional registrada</p>}
             <div className="space-y-2">
               {staffPerf.map((s) => (
                 <div key={s.id} className="flex justify-between text-sm">

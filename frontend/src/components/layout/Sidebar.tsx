@@ -19,14 +19,14 @@ import { useAuthStore } from '@/store/auth';
 import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
-  { href: '/pos', label: 'POS', icon: ShoppingCart, roles: ['owner', 'manager', 'cashier', 'stylist'] },
+  { href: '/pos', label: 'PDV', icon: ShoppingCart, roles: ['owner', 'manager', 'cashier', 'stylist'] },
   { href: '/agenda', label: 'Agenda', icon: CalendarDays, roles: ['owner', 'manager', 'cashier', 'stylist'] },
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['owner', 'manager', 'cashier', 'stylist'] },
-  { href: '/orders', label: 'Orders', icon: ClipboardList, roles: ['owner', 'manager', 'cashier', 'stylist'] },
-  { href: '/products', label: 'Services', icon: Package, roles: ['owner', 'manager'] },
-  { href: '/customers', label: 'Customers', icon: Users, roles: ['owner', 'manager', 'cashier', 'stylist'] },
-  { href: '/staff', label: 'Staff', icon: UserCog, roles: ['owner', 'manager'] },
-  { href: '/settings', label: 'Settings', icon: Settings, roles: ['owner', 'manager'] },
+  { href: '/dashboard', label: 'Painel', icon: LayoutDashboard, roles: ['owner', 'manager', 'cashier', 'stylist'] },
+  { href: '/orders', label: 'Pedidos', icon: ClipboardList, roles: ['owner', 'manager', 'cashier', 'stylist'] },
+  { href: '/products', label: 'Serviços', icon: Package, roles: ['owner', 'manager'] },
+  { href: '/customers', label: 'Clientes', icon: Users, roles: ['owner', 'manager', 'cashier', 'stylist'] },
+  { href: '/staff', label: 'Equipe', icon: UserCog, roles: ['owner', 'manager'] },
+  { href: '/settings', label: 'Configurações', icon: Settings, roles: ['owner', 'manager'] },
 ];
 
 export default function Sidebar() {
@@ -69,7 +69,7 @@ export default function Sidebar() {
         ) : (
           <img src="/er/logo-radiante.svg" alt="" className="h-8 w-8" />
         )}
-        <button onClick={toggle} className="p-1.5 rounded-md hover:bg-[var(--sidebar-accent)] shrink-0" title="Toggle sidebar">
+        <button onClick={toggle} className="p-1.5 rounded-md hover:bg-[var(--sidebar-accent)] shrink-0" title="Alternar menu lateral">
           <PanelLeft className="h-4 w-4" />
         </button>
       </div>
@@ -101,10 +101,10 @@ export default function Sidebar() {
         <button
           onClick={logout}
           className="flex items-center gap-3 w-full rounded-md px-3 py-2 text-sm font-medium text-[var(--sidebar-foreground)] hover:bg-[var(--sidebar-accent)]"
-          title={collapsed ? 'Logout' : undefined}
+          title={collapsed ? 'Sair' : undefined}
         >
           <LogOut className="h-4 w-4 shrink-0" />
-          {!collapsed && <span>Logout</span>}
+          {!collapsed && <span>Sair</span>}
         </button>
       </div>
     </aside>

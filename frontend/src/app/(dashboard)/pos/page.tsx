@@ -75,7 +75,7 @@ export default function PosPage() {
   async function checkout() {
     if (cart.length === 0) return;
     if (missingStylist) {
-      toast.error('Assign a stylist to every service before checking out');
+      toast.error('Atribua uma profissional a cada serviço antes de finalizar');
       return;
     }
     setCheckingOut(true);
@@ -83,7 +83,7 @@ export default function PosPage() {
       let customerId: string | undefined;
       if (customerPhone.trim()) {
         try {
-          const { data } = await api.post('/customers', { name: customerName.trim() || 'Walk-in', phone: customerPhone.trim() });
+          const { data } = await api.post('/customers', { name: customerName.trim() || 'Cliente avulsa', phone: customerPhone.trim() });
           customerId = data.customer.id;
         } catch {
           const { data } = await api.get('/customers/search', { params: { q: customerPhone.trim() } });
@@ -116,14 +116,14 @@ export default function PosPage() {
         // printer may not be connected in dev — checkout still succeeds
       }
 
-      toast.success(`Ticket complete — ${orderRes.order.order_number}`);
+      toast.success(`Comanda concluída — ${orderRes.order.order_number}`);
       setCart([]);
       setDiscountPercent(0);
       setCustomerName('');
       setCustomerPhone('');
       loadData();
     } catch (err: any) {
-      toast.error(err?.response?.data?.error || 'Checkout failed');
+      toast.error(err?.response?.data?.error || 'Falha ao finalizar');
     } finally {
       setCheckingOut(false);
     }
@@ -135,7 +135,7 @@ export default function PosPage() {
       <div className="flex-1 min-w-0 flex flex-col">
         <div className="relative mb-4">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-[var(--muted-foreground)]" />
-          <Input placeholder="Search services or products..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-8" />
+          <Input placeholder="Buscar serviços ou produtos..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-8" />
         </div>
 
         <div className="flex gap-2 mb-4 overflow-x-auto pb-1">
@@ -143,7 +143,7 @@ export default function PosPage() {
             onClick={() => setActiveCategory(null)}
             className={cn('px-3 py-1.5 rounded-full text-sm whitespace-nowrap', !activeCategory ? 'bg-[var(--primary)] text-[var(--primary-foreground)]' : 'bg-[var(--secondary)]')}
           >
-            All
+            Todos
           </button>
           {categories.map((c) => (
             <button
@@ -165,7 +165,7 @@ export default function PosPage() {
             >
               <div className="font-medium text-sm truncate">{p.name}</div>
               <div className="text-xs text-[var(--muted-foreground)]">
-                {p.kind === 'service' ? `${p.service_duration_minutes} min` : 'Retail product'}
+                {p.kind === 'service' ? `${p.service_duration_minutes} min` : 'Produto'}
               </div>
               <div className="mt-1 font-semibold">{formatCurrency(p.price)}</div>
             </button>
@@ -175,9 +175,9 @@ export default function PosPage() {
 
       {/* Ticket */}
       <div className="w-full lg:w-96 shrink-0 flex flex-col border-t lg:border-t-0 lg:border-l border-[var(--border)] pt-6 lg:pt-0 lg:pl-6">
-        <h2 className="font-semibold mb-3">Ticket</h2>
+        <h2 className="font-semibold mb-3">Comanda</h2>
         <div className="flex-1 overflow-y-auto space-y-3">
-          {cart.length === 0 && <p className="text-sm text-[var(--muted-foreground)]">No items yet</p>}
+          {cart.length === 0 && <p className="text-sm text-[var(--muted-foreground)]">Nenhum item ainda</p>}
           {cart.map((l) => (
             <div key={l.product.id} className="text-sm space-y-1.5">
               <div className="flex items-center gap-2">
@@ -198,7 +198,7 @@ export default function PosPage() {
               </div>
               {l.product.kind === 'service' && (
                 <Select value={l.stylist_id || ''} onChange={(e) => updateStylist(l.product.id, e.target.value)} className="h-8 text-xs">
-                  <option value="">Assign stylist...</option>
+                  <option value="">Atribuir profissional...</option>
                   {stylists.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
                 </Select>
               )}
@@ -208,12 +208,12 @@ export default function PosPage() {
 
         <div className="border-t border-[var(--border)] mt-3 pt-3 space-y-3">
           <div className="grid grid-cols-2 gap-2">
-            <Input placeholder="Client name" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
-            <Input placeholder="Phone number" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} />
+            <Input placeholder="Nome da cliente" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+            <Input placeholder="Telefone" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} />
           </div>
 
           <div className="flex items-center gap-2">
-            <label className="text-sm text-[var(--muted-foreground)] shrink-0">Discount %</label>
+            <label className="text-sm text-[var(--muted-foreground)] shrink-0">Desconto %</label>
             <Input
               type="number"
               min={0}
@@ -225,12 +225,12 @@ export default function PosPage() {
           </div>
 
           <div>
-            <label className="text-sm text-[var(--muted-foreground)]">Payment method</label>
+            <label className="text-sm text-[var(--muted-foreground)]">Forma de pagamento</label>
             <Select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
-              <option value="cash">Cash</option>
-              <option value="card">Card</option>
-              <option value="upi">UPI</option>
-              <option value="wallet">Loyalty wallet</option>
+              <option value="cash">Dinheiro</option>
+              <option value="card">Cartão</option>
+              <option value="upi">Pix</option>
+              <option value="wallet">Carteira fidelidade</option>
             </Select>
           </div>
 
@@ -240,7 +240,7 @@ export default function PosPage() {
           </div>
           {discountAmount > 0 && (
             <div className="flex justify-between text-sm text-[var(--muted-foreground)]">
-              <span>Discount</span>
+              <span>Desconto</span>
               <span>-{formatCurrency(discountAmount)}</span>
             </div>
           )}
@@ -250,7 +250,7 @@ export default function PosPage() {
           </div>
 
           <Button className="w-full" size="lg" disabled={cart.length === 0 || checkingOut} onClick={checkout}>
-            {checkingOut ? 'Processing...' : 'Checkout'}
+            {checkingOut ? 'Processando...' : 'Finalizar'}
           </Button>
         </div>
       </div>
