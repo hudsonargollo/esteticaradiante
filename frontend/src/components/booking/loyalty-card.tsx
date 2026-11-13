@@ -40,12 +40,14 @@ export function LoyaltyCard({ visits, totalVisits, config }: LoyaltyCardProps) {
                 : `Faltam ${remaining} ${remaining === 1 ? 'visita' : 'visitas'} para ganhar`}
             </p>
           </div>
-          <div
-            className="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap"
-            style={{ backgroundColor: 'var(--bg-surface-hover)', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)' }}
-          >
-            {totalVisits !== undefined && totalVisits > 0 ? `${totalVisits} visitas` : 'Novo por aqui'}
-          </div>
+          {totalVisits !== undefined && totalVisits > 0 && (
+            <div
+              className="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap"
+              style={{ backgroundColor: 'var(--bg-surface-hover)', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)' }}
+            >
+              {totalVisits === 1 ? '1 visita' : `${totalVisits} visitas`}
+            </div>
+          )}
         </div>
 
         <div className="flex justify-between items-center gap-1 mt-2">
