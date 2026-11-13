@@ -57,12 +57,17 @@ export default function Sidebar() {
         collapsed ? 'w-16' : 'w-56'
       )}
     >
-      <div className="flex items-center justify-between p-3 border-b border-[var(--sidebar-border)]">
-        {!collapsed && (
-          <div className="min-w-0">
-            <div className="font-semibold truncate">{tenant?.business_name || 'FloSalon'}</div>
-            <div className="text-xs text-[var(--muted-foreground)] truncate">{user?.name}</div>
+      <div className={cn('flex items-center justify-between p-3 border-b border-[var(--sidebar-border)]', collapsed && 'flex-col gap-2')}>
+        {!collapsed ? (
+          <div className="flex items-center gap-2 min-w-0">
+            <img src="/er/logo-radiante.svg" alt="" className="h-8 w-8 shrink-0" />
+            <div className="min-w-0">
+              <div className="font-display text-base font-medium truncate">{tenant?.business_name || 'Estética Radiante'}</div>
+              <div className="text-xs text-[var(--muted-foreground)] truncate">{user?.name}</div>
+            </div>
           </div>
+        ) : (
+          <img src="/er/logo-radiante.svg" alt="" className="h-8 w-8" />
         )}
         <button onClick={toggle} className="p-1.5 rounded-md hover:bg-[var(--sidebar-accent)] shrink-0" title="Toggle sidebar">
           <PanelLeft className="h-4 w-4" />

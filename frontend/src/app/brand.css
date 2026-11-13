@@ -1,0 +1,122 @@
+/* ─────────────────────────────────────────────────────────────
+   Estética Radiante — shared brand tokens (booking + admin)
+   ───────────────────────────────────────────────────────────── */
+
+.booking-root,
+.admin-root {
+  --brand-amethyst: #7c4d8c;
+  --brand-quartz: #d9b8c4;
+  --brand-gold: #d4af37;
+  --brand-gold-soft: #e8c96a;
+  --brand-lilac: #c9a7e8;
+
+  --bg-app: #0e0812;
+  --bg-surface: #17101d;
+  --bg-surface-hover: #22172b;
+  --bg-surface-active: #2d1f38;
+  --border-subtle: #33263d;
+  --text-primary: #fbf6f2;
+  --text-secondary: #c4b2c9;
+  --text-disabled: #6b5a72;
+  --btn-primary-bg: #2a1a33;
+  --btn-primary-text: #fbf6f2;
+  --btn-primary-border: #d4af37;
+  --slot-available-bg: var(--bg-surface);
+  --slot-selected-bg: #d4af37;
+  --slot-selected-text: #1a1020;
+  --accent-line: #d4af37;
+
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-body), 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.booking-root[data-theme='light'],
+.admin-root[data-theme='light'] {
+  --bg-app: #fbf6f2;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f6eee8;
+  --bg-surface-active: #efe2d9;
+  --border-subtle: #e7d8ce;
+  --text-primary: #2a1730;
+  --text-secondary: #6b5573;
+  --text-disabled: #a08aa8;
+  --btn-primary-bg: #3b1f4a;
+  --btn-primary-text: #fbf6f2;
+  --btn-primary-border: #3b1f4a;
+  --slot-available-bg: #ffffff;
+  --slot-selected-bg: #3b1f4a;
+  --slot-selected-text: #fbf6f2;
+  --accent-line: #b8912a;
+}
+
+.booking-root h1,
+.booking-root h2,
+.booking-root h3,
+.booking-root .font-display,
+.admin-root h1,
+.admin-root h2,
+.admin-root h3,
+.admin-root .font-display {
+  font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+}
+
+.booking-root .btn-brand,
+.admin-root .btn-brand {
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border: 1px solid var(--btn-primary-border);
+}
+.booking-root .btn-brand:hover,
+.admin-root .btn-brand:hover {
+  opacity: 0.88;
+}
+
+.booking-root input,
+.booking-root textarea,
+.admin-root input,
+.admin-root textarea {
+  outline: none;
+}
+.booking-root input:focus,
+.booking-root textarea:focus,
+.admin-root input:focus,
+.admin-root textarea:focus {
+  box-shadow: 0 0 0 1.5px var(--accent-line);
+}
+
+.booking-root .divider,
+.admin-root .divider {
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+/* Admin surfaces consume the shadcn-style variables used by the UI kit;
+   map them onto the brand tokens so cards, inputs and nav stay on-brand. */
+.admin-root {
+  --background: var(--bg-app);
+  --foreground: var(--text-primary);
+  --card: var(--bg-surface);
+  --card-foreground: var(--text-primary);
+  --primary: var(--btn-primary-bg);
+  --primary-foreground: var(--btn-primary-text);
+  --secondary: var(--bg-surface-hover);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-surface-hover);
+  --muted-foreground: var(--text-secondary);
+  --accent: var(--bg-surface-active);
+  --accent-foreground: var(--text-primary);
+  --border: var(--border-subtle);
+  --input: var(--border-subtle);
+  --ring: var(--accent-line);
+  --sidebar: var(--bg-surface);
+  --sidebar-foreground: var(--text-primary);
+  --sidebar-primary: var(--brand-gold);
+  --sidebar-primary-foreground: #1a1020;
+  --sidebar-accent: var(--bg-surface-hover);
+  --sidebar-accent-foreground: var(--accent-line);
+  --sidebar-border: var(--border-subtle);
+}

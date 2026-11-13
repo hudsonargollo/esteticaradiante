@@ -594,7 +594,7 @@ export default function BookingPage() {
             className="h-8 px-3 rounded-full flex items-center transition-all hover:opacity-80 text-[10px] font-medium uppercase tracking-widest"
             style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
           >
-            Equipe
+            Admin
           </Link>
         </div>
 

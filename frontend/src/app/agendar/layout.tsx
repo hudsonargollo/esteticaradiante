@@ -1,21 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Cormorant_Garamond, Inter } from 'next/font/google';
 import './booking.css';
-
-const display = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-display',
-  display: 'swap',
-});
-
-const body = Inter({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-body',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'Estética Radiante · Agendamento',
@@ -31,9 +15,5 @@ export const viewport: Viewport = {
 };
 
 export default function BookingLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className={`${display.variable} ${body.variable}`}>
-      {children}
-    </div>
-  );
+  return <>{children}</>;
 }

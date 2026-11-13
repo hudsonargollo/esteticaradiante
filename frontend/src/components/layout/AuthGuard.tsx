@@ -22,7 +22,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     if (loading) return;
 
     // Public booking page: never redirect, even during first-run setup.
-    if (PUBLIC_PATHS.includes(pathname || '')) return;
+    if (pathname === '/agendar') return;
 
     if (needsSetup && pathname !== '/setup') {
       router.replace('/setup');
