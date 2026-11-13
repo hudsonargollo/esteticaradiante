@@ -4,23 +4,19 @@ import axios from 'axios';
  * Public booking API client. Never sends the staff JWT and never redirects
  * to the login screen — this is what visitors use.
  *
- * The booking page is shared with clients' phones over the local network, so
- * when the page is served by the same Express server as the API we prefer a
- * same-origin URL instead of the baked-in `localhost` value. Otherwise a phone
- * opening `http://192.168.x.x:3001/agendar/` would call its own localhost.
+ * Whenever the page is served from a non-local host (deployed domain or a LAN
+ * IP), the same Express server serves both the page and /api, so same-origin
+ * is always correct there. The baked-in localhost value only applies to local
+ * dev / desktop, where frontend and API run on different ports.
  */
-function resolveBaseURL(): string {
+export function resolveBaseURL(): string {
   const configured = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
   if (typeof window === 'undefined') return configured;
 
-  try {
-    const configuredUrl = new URL(configured);
-    const samePort = window.location.port === configuredUrl.port;
-    const httpPage = window.location.protocol === 'http:' || window.location.protocol === 'https:';
-    if (httpPage && samePort) return `${window.location.origin}/api`;
-  } catch {
-    // fall through to the configured URL
-  }
+  const { hostname, origin, protocol } = window.location;
+  const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
+  const httpPage = protocol === 'http:' || protocol === 'https:';
+  if (httpPage && !isLocal) return `${origin}/api`;
 
   return configured;
 }
