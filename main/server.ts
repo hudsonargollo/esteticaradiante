@@ -5,6 +5,7 @@ import * as os from 'os';
 import * as path from 'path';
 import * as fs from 'fs';
 import { registerRoutes } from './routes';
+import { startNotificationServer } from './notification-server';
 
 let server: http.Server | null = null;
 let app: Express;
@@ -72,6 +73,8 @@ export function startServer(): Promise<void> {
 
     server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`[Server] HTTP server running on http://localhost:${PORT}`);
+      const httpServer = server!;
+      startNotificationServer(httpServer);
       resolve();
     });
 

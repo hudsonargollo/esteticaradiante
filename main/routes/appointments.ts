@@ -14,6 +14,8 @@ import {
   timeToMinutes,
 } from '../services/booking';
 import { createOrderFromAppointment } from '../services/order-builder';
+import { notifyAppointmentMade } from '../notification';
+import { broadcast } from '../notification-server';
 
 const router = Router();
 
@@ -136,6 +138,10 @@ router.post('/', (req: Request, res: Response) => {
       status: 'confirmed',
       skipAvailabilityCheck: Boolean(force),
     });
+
+    // ── Notification: brand-new booking ──────────────────────────────
+    const notification = notifyAppointmentMade(appointment);
+    broadcast(notification);
 
     res.status(201).json({ appointment });
   } catch (error: any) {
